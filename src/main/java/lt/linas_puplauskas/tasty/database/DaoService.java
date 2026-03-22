@@ -1,4 +1,4 @@
-package linas.puplauskas.tasty.database;
+package lt.linas_puplauskas.tasty.database;
 
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
@@ -9,15 +9,14 @@ import org.bson.conversions.Bson;
 import org.bson.types.ObjectId;
 
 public abstract class DaoService<T extends DaoObject, K> {
-    protected final MongoDatabase mongoDatabase;
+    protected final MongoDatabase mongoDatabase =  MongoConfig.getDatabase();
     private final Class<T> entityClass;
 
     public abstract String getTableName();
 
     public abstract Bson processCriteria(K var1);
 
-    public DaoService(MongoDatabase mongoDatabase, Class<T> entityClass) {
-        this.mongoDatabase = mongoDatabase;
+    public DaoService(Class<T> entityClass) {
         this.entityClass = entityClass;
     }
 
@@ -35,17 +34,17 @@ public abstract class DaoService<T extends DaoObject, K> {
 
     public T find(K criteria) {
         Bson filter = this.processCriteria(criteria);
-        return (DaoObject)this.getCollection().find(filter).first();
+        return this.getCollection().find(filter).first();
     }
 
     public List<T> findAll() {
-        List<T> results = new ArrayList();
+        List<T> results = new ArrayList<>();
         this.getCollection().find().into(results);
         return results;
     }
 
     public T get(ObjectId objectId) {
-        return (DaoObject)this.getCollection().find(Filters.eq("_id", objectId)).first();
+        return this.getCollection().find(Filters.eq("_id", objectId)).first();
     }
 
     public void remove(K criteria) {

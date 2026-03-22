@@ -1,4 +1,4 @@
-package linas.puplauskas.tasty.database;
+package lt.linas_puplauskas.tasty.database;
 
 import com.mongodb.ConnectionString;
 import com.mongodb.MongoClientSettings;
@@ -18,12 +18,12 @@ import org.bson.conversions.Bson;
 public class MongoConfig {
     private static MongoClient mongoClient;
     private static MongoDatabase mongoDatabase;
-
+    //TODO Change Sout to logs
     public static void connect() {
         MongoClientSettings settings = MongoClientSettings.builder().applyConnectionString(new ConnectionString("mongodb://localhost:27017")).build();
         mongoClient = MongoClients.create(settings);
-        CodecRegistry pojoCodecRegistry = CodecRegistries.fromRegistries(new CodecRegistry[]{MongoClientSettings.getDefaultCodecRegistry(), CodecRegistries.fromProviders(new CodecProvider[]{PojoCodecProvider.builder().automatic(true).build()})});
-        mongoDatabase = mongoClient.getDatabase("admin").withCodecRegistry(pojoCodecRegistry);
+        CodecRegistry pojoCodecRegistry = CodecRegistries.fromRegistries(MongoClientSettings.getDefaultCodecRegistry(), CodecRegistries.fromProviders(new CodecProvider[]{PojoCodecProvider.builder().automatic(true).build()}));
+        mongoDatabase = mongoClient.getDatabase("tasty").withCodecRegistry(pojoCodecRegistry);
 
         try {
             Bson command = new BsonDocument("ping", new BsonInt64(1L));

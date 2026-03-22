@@ -1,9 +1,15 @@
-package linas.puplauskas.tasty.model.client;
+package lt.linas_puplauskas.tasty.model.client;
 
 import java.time.LocalDate;
 
-import linas.puplauskas.tasty.model.user.User;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lt.linas_puplauskas.tasty.model.user.User;
 
+@Getter
+@Setter
+@NoArgsConstructor
 public class Client extends User {
     private String name;
     private String surname;

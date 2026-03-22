@@ -1,9 +1,7 @@
-package linas.puplauskas.tasty;
-
-import javafx.application.Application;
+package lt.linas_puplauskas.tasty;
 
 public class Launcher {
     public static void main(String[] args) {
-        Application.launch(HelloApplication.class, args);
+        javafx.application.Application.launch(Application.class, args);
     }
 }

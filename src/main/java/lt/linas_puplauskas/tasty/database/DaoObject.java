@@ -1,4 +1,4 @@
-package linas.puplauskas.tasty.database;
+package lt.linas_puplauskas.tasty.database;
 
 import java.io.Serializable;
 import org.bson.types.ObjectId;

@@ -1,4 +1,4 @@
-package linas.puplauskas.tasty.fxControllers;
+package lt.linas_puplauskas.tasty.fxControllers;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -11,7 +11,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.Pane;
-import lt.linas_puplauskas.model.driver.VehicleType;
+import lt.linas_puplauskas.tasty.model.driver.VehicleType;
 
 public class CreateUserForm implements Initializable {
     public ToggleGroup userType;
