@@ -5,6 +5,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lt.linas_puplauskas.tasty.model.order.Order;
 import lt.linas_puplauskas.tasty.model.user.User;
+import org.bson.types.ObjectId;
 
 import java.time.LocalDateTime;
 
@@ -12,7 +13,7 @@ import java.time.LocalDateTime;
 @Setter
 @NoArgsConstructor
 public class Message {
-    private int id;
+    private ObjectId id;
     private User sender;
     private User receiver;
     private String content;

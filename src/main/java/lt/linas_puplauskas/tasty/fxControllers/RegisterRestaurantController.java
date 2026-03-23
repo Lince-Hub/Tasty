@@ -1,14 +1,12 @@
 package lt.linas_puplauskas.tasty.fxControllers;
 
 import javafx.collections.FXCollections;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
-import lt.linas_puplauskas.tasty.database.MongoConfig;
 import lt.linas_puplauskas.tasty.model.restaurant.Cuisine;
 import lt.linas_puplauskas.tasty.model.restaurant.Restaurant;
 import lt.linas_puplauskas.tasty.model.user.User;
@@ -18,9 +16,6 @@ import lt.linas_puplauskas.tasty.service.UserService;
 
 import java.io.IOException;
 import java.net.URL;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
 
 public class RegisterRestaurantController implements Initializable {
@@ -51,8 +46,6 @@ public class RegisterRestaurantController implements Initializable {
 
     private final UserService userService = new UserService(User.class);
 
-    private final DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
-
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         cuisineComboBox.setItems(FXCollections.observableArrayList(Cuisine.values()));
@@ -78,7 +71,7 @@ public class RegisterRestaurantController implements Initializable {
         restaurant.setRole(UserRole.RESTAURANT);
 
         userService.save(restaurant);
-        RouteService.route("login-in-view.fxml");
+        RouteService.route("login-view.fxml");
     }
 
     private void validateFields() {
@@ -86,6 +79,6 @@ public class RegisterRestaurantController implements Initializable {
     }
 
     public void goBack() throws IOException {
-        RouteService.route("login-in-view.fxml");
+        RouteService.route("login-view.fxml");
     }
 }

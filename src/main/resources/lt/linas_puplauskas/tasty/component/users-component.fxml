@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox alignment="CENTER" prefHeight="436.0" prefWidth="591.0" spacing="20.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lt.linas_puplauskas.tasty.fxControllers.component.UsersComponentController">
+    <padding>
+        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+    </padding>
+    <children>
+      <VBox alignment="CENTER" prefHeight="396.0" prefWidth="479.0" style="-fx-spacing: 20;">
+         <children>
+               <Label prefHeight="30.0" prefWidth="114.0" text="List of Users">
+                   <font>
+                       <Font size="20.0" />
+                   </font>
+               </Label>
+            <TableView fx:id="usersTable" prefHeight="223.0" prefWidth="522.0">
+               <columns>
+                  <TableColumn fx:id="idColumn" prefWidth="98.80004501342773" text="Id" />
+                  <TableColumn fx:id="usernameColumn" prefWidth="90.4000244140625" text="Username" />
+                  <TableColumn fx:id="passwordColumn" prefWidth="96.40003967285156" text="Password" />
+                  <TableColumn fx:id="emailColumn" prefWidth="75.20001220703125" text="Email" />
+                  <TableColumn fx:id="phoneNumColumn" prefWidth="81.5999755859375" text="PhoneNum" />
+                  <TableColumn fx:id="roleColumn" prefWidth="85.20004272460938" text="Role" />
+               </columns>
+            </TableView>
+         </children>
+      </VBox>
+    </children>
+</VBox>

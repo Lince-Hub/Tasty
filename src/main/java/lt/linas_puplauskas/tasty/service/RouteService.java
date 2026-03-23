@@ -9,7 +9,7 @@ import lt.linas_puplauskas.tasty.Application;
 import java.io.IOException;
 
 public class RouteService {
-    public static void route(String viewFile) throws IOException {
+    private static FXMLLoader load(String viewFile) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(Application.class.getResource(viewFile));
         Parent parent = fxmlLoader.load();
         Scene scene = new Scene(parent);
@@ -22,5 +22,15 @@ public class RouteService {
 
         stage.setScene(scene);
         stage.show();
+
+        return fxmlLoader;
+    }
+
+    public static void route(String viewFile) throws IOException {
+        load(viewFile);
+    }
+
+    public static FXMLLoader routeAndData(String viewFile) throws IOException {
+        return load(viewFile);
     }
 }
