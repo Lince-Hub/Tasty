@@ -14,6 +14,8 @@ module linas.puplauskas.tasty {
     opens lt.linas_puplauskas.tasty.database to mongo.java.driver;
 
     opens lt.linas_puplauskas.tasty.fxControllers to javafx.fxml;
+    opens lt.linas_puplauskas.tasty.fxControllers.component to javafx.fxml;
+    opens lt.linas_puplauskas.tasty.fxControllers.detail to javafx.fxml;
     opens lt.linas_puplauskas.tasty to javafx.fxml;
 
     exports lt.linas_puplauskas.tasty.fxControllers;

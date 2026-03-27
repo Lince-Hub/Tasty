@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.VBox?>
+
+<VBox alignment="CENTER" prefHeight="436.0" prefWidth="519.0" spacing="20.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lt.linas_puplauskas.tasty.fxControllers.detail.RestaurantDetailController">
+
+</VBox>

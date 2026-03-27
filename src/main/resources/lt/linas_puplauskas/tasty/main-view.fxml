@@ -15,7 +15,7 @@
                <Font size="20.0" />
             </font></Label>
             <HBox prefHeight="25.0" prefWidth="351.0" style="-fx-padding: 20;" HBox.hgrow="ALWAYS" />
-            <Label fx:id="loggedInLabel" alignment="CENTER" text="Logged in as: admin" />
+            <Label fx:id="loggedInLabel" alignment="CENTER" text="Logged in as: " />
             <Button onAction="#logOut" text="Logout" />
         </HBox>
     </top>
@@ -23,9 +23,8 @@
     <left>
         <VBox alignment="TOP_CENTER" prefHeight="336.0" prefWidth="91.0" style="-fx-spacing: 10;">
             <Button onAction="#showUsers" prefHeight="25.0" prefWidth="77.0" text="Users" />
-            <Button onAction="#showRestaurants" text="Restaurants" />
-            <Button onAction="#showDrivers" prefHeight="25.0" prefWidth="77.0" text="Drivers" />
-            <Button onAction="#showClients" prefHeight="25.0" prefWidth="78.0" text="Clients" />
+         <Button onAction="#showOrders" prefHeight="25.0" prefWidth="78.0" text="Orders" />
+         <Button onAction="#showStatistics" prefHeight="25.0" prefWidth="78.0" text="Statistics" />
         </VBox>
     </left>
 

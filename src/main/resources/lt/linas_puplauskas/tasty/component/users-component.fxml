@@ -12,7 +12,7 @@
         <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
     </padding>
     <children>
-      <VBox alignment="CENTER" prefHeight="396.0" prefWidth="479.0" style="-fx-spacing: 20;">
+      <VBox alignment="TOP_CENTER" prefHeight="396.0" prefWidth="479.0" style="-fx-spacing: 20;">
          <children>
                <Label prefHeight="30.0" prefWidth="114.0" text="List of Users">
                    <font>
@@ -23,10 +23,11 @@
                <columns>
                   <TableColumn fx:id="idColumn" prefWidth="98.80004501342773" text="Id" />
                   <TableColumn fx:id="usernameColumn" prefWidth="90.4000244140625" text="Username" />
-                  <TableColumn fx:id="passwordColumn" prefWidth="96.40003967285156" text="Password" />
-                  <TableColumn fx:id="emailColumn" prefWidth="75.20001220703125" text="Email" />
-                  <TableColumn fx:id="phoneNumColumn" prefWidth="81.5999755859375" text="PhoneNum" />
-                  <TableColumn fx:id="roleColumn" prefWidth="85.20004272460938" text="Role" />
+                  <TableColumn fx:id="passwordColumn" prefWidth="76.0" text="Password" />
+                  <TableColumn fx:id="emailColumn" prefWidth="74.39996337890625" text="Email" />
+                  <TableColumn fx:id="phoneNumColumn" prefWidth="86.39996337890625" text="PhoneNum" />
+                  <TableColumn fx:id="roleColumn" prefWidth="69.20004272460938" text="Role" />
+                  <TableColumn fx:id="actionsColumn" prefWidth="121.60003662109375" />
                </columns>
             </TableView>
          </children>

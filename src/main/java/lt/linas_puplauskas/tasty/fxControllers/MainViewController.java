@@ -1,5 +1,6 @@
 package lt.linas_puplauskas.tasty.fxControllers;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -27,7 +28,7 @@ public class MainViewController {
     public void setUser(User user) {
         this.user = user;
         boolean isRestaurant = user instanceof Restaurant;
-        loggedInLabel.setText("Logged in as:" + user.getUsername());
+        loggedInLabel.setText("Logged in as: " + user.getUsername());
         if(isRestaurant) {
             this.restaurant = (Restaurant) user;
         }
@@ -38,18 +39,13 @@ public class MainViewController {
         borderPane.setCenter(loader.load());
     }
 
-    public void showRestaurants() throws IOException {
-        FXMLLoader loader = new FXMLLoader(Application.class.getResource("component/restaurants-component.fxml"));
+    public void showOrders() throws IOException {
+        FXMLLoader loader = new FXMLLoader(Application.class.getResource("component/orders-component.fxml"));
         borderPane.setCenter(loader.load());
     }
 
-    public void showDrivers() throws IOException {
-        FXMLLoader loader = new FXMLLoader(Application.class.getResource("component/drivers-component.fxml"));
-        borderPane.setCenter(loader.load());
-    }
-
-    public void showClients() throws IOException {
-        FXMLLoader loader = new FXMLLoader(Application.class.getResource("component/clients-component.fxml"));
+    public void showStatistics() throws IOException {
+        FXMLLoader loader = new FXMLLoader(Application.class.getResource("component/statistics-component.fxml"));
         borderPane.setCenter(loader.load());
     }
 
