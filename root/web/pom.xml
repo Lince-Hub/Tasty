@@ -21,6 +21,25 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-dependencies</artifactId>
+                <version>${spring-boot.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>com.vaadin</groupId>
+                <artifactId>vaadin-bom</artifactId>
+                <version>${vaadin.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
     <dependencies>
         <!-- Vaadin -->
         <dependency>
@@ -65,17 +84,23 @@
             <scope>test</scope>
         </dependency>
 
-        <!-- Lombok (inherited from parent, but declared here for annotation processor) -->
+        <!-- Lombok -->
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
+        </dependency>
+
+        <!-- Common module -->
+        <dependency>
+            <groupId>linas.puplauskas</groupId>
+            <artifactId>common</artifactId>
+            <version>1.0-SNAPSHOT</version>
         </dependency>
     </dependencies>
 
     <build>
         <defaultGoal>spring-boot:run</defaultGoal>
         <plugins>
-            <!-- Spring Boot plugin (explicit since we don't inherit spring-boot-starter-parent) -->
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
@@ -89,7 +114,6 @@
                 </executions>
             </plugin>
 
-            <!-- Vaadin frontend build -->
             <plugin>
                 <groupId>com.vaadin</groupId>
                 <artifactId>vaadin-maven-plugin</artifactId>
@@ -103,7 +127,6 @@
                 </executions>
             </plugin>
 
-            <!-- Compiler with Lombok annotation processor -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
