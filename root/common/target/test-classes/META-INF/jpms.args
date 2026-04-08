@@ -1,0 +1,4 @@
+--patch-module
+linas.puplauskas.common=_
+--add-reads
+linas.puplauskas.common=ALL-UNNAMED

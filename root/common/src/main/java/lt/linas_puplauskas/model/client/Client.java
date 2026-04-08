@@ -1,0 +1,26 @@
+package lt.linas_puplauskas.model.client;
+
+import java.time.LocalDate;
+
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lt.linas_puplauskas.model.user.User;
+
+@Getter
+@Setter
+@NoArgsConstructor
+public class Client extends User {
+    private String name;
+    private String surname;
+    private String cardNo;
+    private int bonusPoints;
+    private String address;
+    private LocalDate dateOfBirth;
+    private double balance;
+
+    @Override
+    public String toString() {
+        return name + " " + surname;
+    }
+}
