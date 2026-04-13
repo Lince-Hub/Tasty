@@ -1,7 +1,9 @@
 package lt.linas_puplauskas.tasty;
 
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 import lombok.Getter;
 import lombok.Setter;
@@ -25,9 +27,17 @@ public class Application extends javafx.application.Application {
         FXMLLoader fxmlLoader = new FXMLLoader(Application.class.getResource("login-view.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
 
+        Rectangle2D screen = Screen.getPrimary().getVisualBounds();
+        stage.setX((screen.getWidth()  - stage.getWidth())  / 2);
+        stage.setY((screen.getHeight() - stage.getHeight()) / 2);
         stage.setTitle("Tasty");
         stage.setScene(scene);
+        stage.setWidth(1200);
+        stage.setHeight(700);
         stage.show();
+//        stage.centerOnScreen();
+
+        initDev();
     }
 
     @Override
@@ -42,7 +52,7 @@ public class Application extends javafx.application.Application {
 
     public void initDev() throws IOException {
         UserService userService = new UserService(User.class);
-        currentUser = (User) userService.find(new UserSearchCriteria(new ObjectId("65000000000000000000000a")));
+        currentUser = (User) userService.findFirst(new UserSearchCriteria(new ObjectId("65000000000000000000000a")));
 
         RouteService.route("main-view.fxml");
     }

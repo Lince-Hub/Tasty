@@ -19,7 +19,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class UsersComponentController implements Initializable {
+public class UsersController implements Initializable {
     @FXML
     public TableView<User> usersTable;
     @FXML
@@ -77,7 +77,7 @@ public class UsersComponentController implements Initializable {
             }
         });
 
-        usersTable.getItems().addAll(userService.findAll());
+        usersTable.getItems().addAll(userService.findAll(new UserSearchCriteria()));
     }
 
     private void openDetailView(User user) throws IOException {

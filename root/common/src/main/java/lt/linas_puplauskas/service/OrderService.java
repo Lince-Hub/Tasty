@@ -5,6 +5,7 @@ import lt.linas_puplauskas.constants.MongoConstants;
 import lt.linas_puplauskas.database.DaoService;
 import lt.linas_puplauskas.model.order.Order;
 import lt.linas_puplauskas.model.order.OrderSearchCriteria;
+import org.bson.Document;
 import org.bson.conversions.Bson;
 
 import java.util.ArrayList;
@@ -22,12 +23,16 @@ public class OrderService extends DaoService<Order, OrderSearchCriteria> {
 
     @Override
     public Bson processCriteria(OrderSearchCriteria criteria) {
-        List<Bson> filter = new ArrayList<>();
+        List<Bson> filters = new ArrayList<>();
 
         if (criteria.getId() != null) {
-            filter.add(Filters.eq("_id", criteria.getId()));
+            filters.add(Filters.eq("_id", criteria.getId()));
         }
 
-        return Filters.and(filter);
+        if (criteria.getRestaurant() != null) {
+            filters.add(Filters.eq("restaurant._id", criteria.getRestaurant().getId()));
+        }
+
+        return filters.isEmpty() ? new Document() : Filters.and(filters);
     }
 }

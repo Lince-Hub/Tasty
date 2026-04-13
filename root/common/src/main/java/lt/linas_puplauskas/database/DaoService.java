@@ -33,14 +33,15 @@ public abstract class DaoService<T extends DaoObject, K> {
         this.getCollection().replaceOne(Filters.eq("_id", obj.getId()), obj);
     }
 
-    public T find(K criteria) {
+    public T findFirst(K criteria) {
         Bson filter = this.processCriteria(criteria);
         return this.getCollection().find(filter).first();
     }
 
-    public List<T> findAll() {
+    public List<T> findAll(K  criteria) {
+        Bson filter = this.processCriteria(criteria);
         List<T> results = new ArrayList<>();
-        this.getCollection().find().into(results);
+        this.getCollection().find(filter).into(results);
         return results;
     }
 

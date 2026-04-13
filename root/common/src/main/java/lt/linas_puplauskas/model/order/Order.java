@@ -13,6 +13,7 @@ import lt.linas_puplauskas.model.review.Review;
 import org.bson.types.ObjectId;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -32,6 +33,6 @@ public class Order extends DaoObject {
     private int estimatedDeliveryMin;
     private String specialInstructions;
     private Review review;
-    private List<Dish> items;
-    private List<Message> messages;
+    private List<Dish> items = new ArrayList<>();
+    private List<Message> messages = new ArrayList<>();
 }

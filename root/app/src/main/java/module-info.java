@@ -15,4 +15,6 @@ module linas.puplauskas.tasty {
     exports lt.linas_puplauskas.tasty.fxControllers.component;
 
     exports lt.linas_puplauskas.tasty;
+    exports lt.linas_puplauskas.tasty.fxControllers.component.order;
+    opens lt.linas_puplauskas.tasty.fxControllers.component.order to javafx.fxml;
 }

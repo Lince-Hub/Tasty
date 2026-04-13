@@ -31,13 +31,13 @@ public class LoginInController {
             alert.setContentText("Empty Fields");
             alert.showAndWait();
         } else {
-            User user = (User) userService.find(new UserSearchCriteria(username, password));
+            User user = (User) userService.findFirst(new UserSearchCriteria(username, password));
 
             if (user != null
                     && (user.getRole().equals(UserRole.ADMIN)
                     || user.getRole().equals(UserRole.RESTAURANT))) {
-                RouteService.route("main-view.fxml");
                 Application.setCurrentUser(user);
+                RouteService.route("main-view.fxml");
             } else {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("Information Dialog");
@@ -49,6 +49,6 @@ public class LoginInController {
     }
 
     public void routeToRegister() throws IOException {
-        RouteService.route("register-restaurant-view.fxml");
+        RouteService.route("register/register-restaurant-view.fxml");
     }
 }

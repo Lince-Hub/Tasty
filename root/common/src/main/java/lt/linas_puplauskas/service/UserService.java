@@ -6,6 +6,7 @@ import lt.linas_puplauskas.database.DaoService;
 import lt.linas_puplauskas.model.user.User;
 import lt.linas_puplauskas.model.user.UserSearchCriteria;
 import org.apache.commons.lang3.StringUtils;
+import org.bson.Document;
 import org.bson.conversions.Bson;
 
 import java.util.ArrayList;
@@ -24,20 +25,24 @@ public class UserService<T extends User> extends DaoService<T, UserSearchCriteri
 
     @Override
     public Bson processCriteria(UserSearchCriteria criteria) {
-        List<Bson> filter = new ArrayList<>();
+        List<Bson> filters = new ArrayList<>();
 
         if (StringUtils.isNotEmpty(criteria.getUsername())) {
-            filter.add(Filters.eq("username", criteria.getUsername()));
+            filters.add(Filters.eq("username", criteria.getUsername()));
         }
 
         if (StringUtils.isNotEmpty(criteria.getPassword())) {
-            filter.add(Filters.eq("password", criteria.getPassword()));
+            filters.add(Filters.eq("password", criteria.getPassword()));
         }
 
         if (criteria.getId() != null) {
-            filter.add(Filters.eq("_id", criteria.getId()));
+            filters.add(Filters.eq("_id", criteria.getId()));
         }
 
-        return Filters.and(filter);
+        if (criteria.getRole() != null) {
+            filters.add(Filters.eq("role", criteria.getRole().name()));
+        }
+
+        return filters.isEmpty() ? new Document() : Filters.and(filters);
     }
 }

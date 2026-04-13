@@ -23,7 +23,6 @@ public class Restaurant extends User {
     private String openingTime;
     private String closingTime;
     private List<Dish> menu;
-    private List<Order> orders;
 
     @Override
     public String toString() {

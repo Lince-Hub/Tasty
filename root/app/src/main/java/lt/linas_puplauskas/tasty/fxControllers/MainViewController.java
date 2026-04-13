@@ -40,7 +40,12 @@ public class MainViewController implements Initializable {
     }
 
     public void showOrders() throws IOException {
-        FXMLLoader loader = new FXMLLoader(Application.class.getResource("component/orders-component.fxml"));
+        FXMLLoader loader = new FXMLLoader(Application.class.getResource("component/order-component.fxml"));
+        borderPane.setCenter(loader.load());
+    }
+
+    public void showMenu() throws IOException {
+        FXMLLoader loader = new FXMLLoader(Application.class.getResource("component/menu-component.fxml"));
         borderPane.setCenter(loader.load());
     }
 
