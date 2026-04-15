@@ -19,7 +19,7 @@ public class Restaurant extends User {
     private String happyHoursEnd;
     private double rating;
     private boolean isOpen;
-    private Cuisine cuisine;
+    private Cuisine cuisine;    
     private String openingTime;
     private String closingTime;
     private List<Dish> menu;

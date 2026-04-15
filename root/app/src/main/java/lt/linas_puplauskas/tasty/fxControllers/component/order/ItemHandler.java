@@ -54,24 +54,4 @@ public class ItemHandler {
     public void clear() {
         itemsTable.getItems().clear();
     }
-
-    public List<Dish> getItems() {
-        return itemsTable.getItems();
-    }
-
-    public void addItem(Dish item) {
-        if (item != null) {
-            itemsTable.getItems().add(item);
-        }
-    }
-
-    public void removeItem(Dish item) {
-        itemsTable.getItems().remove(item);
-    }
-
-    public void removeItem(int index) {
-        if (index >= 0 && index < itemsTable.getItems().size()) {
-            itemsTable.getItems().remove(index);
-        }
-    }
 }

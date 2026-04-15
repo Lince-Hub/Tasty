@@ -57,7 +57,6 @@ public class MessageHandler {
         this.formPane = formPane;
 
         setupTableColumns();
-        setupComboBoxes();
     }
 
     private void setupTableColumns() {
@@ -113,54 +112,46 @@ public class MessageHandler {
         });
     }
 
-    private void setupComboBoxes() {
-        senderCombo.setCellFactory(lv -> new ListCell<User>() {
-            @Override
-            protected void updateItem(User user, boolean empty) {
-                super.updateItem(user, empty);
-                if (empty || user == null) {
-                    setText(null);
-                } else {
-                    setText(getUserDisplayName(user));
-                }
-            }
-        });
+    private void setupComboBoxes(List<Message> messages) {
+        Message first = messages.getFirst();
+        User sender = first.getSender();
+        User receiver = first.getReceiver();
 
-        senderCombo.setButtonCell(new ListCell<User>() {
-            @Override
-            protected void updateItem(User user, boolean empty) {
-                super.updateItem(user, empty);
-                if (empty || user == null) {
-                    setText(null);
-                } else {
-                    setText(getUserDisplayName(user));
-                }
-            }
-        });
+        senderCombo.getItems().setAll(sender, receiver);
+        receiverCombo.getItems().setAll(sender, receiver);
+        receiverCombo.setDisable(true);
 
-        receiverCombo.setCellFactory(lv -> new ListCell<>() {
-            @Override
-            protected void updateItem(User user, boolean empty) {
-                super.updateItem(user, empty);
-                if (empty || user == null) {
-                    setText(null);
-                } else {
-                    setText(getUserDisplayName(user));
-                }
-            }
-        });
+        applyUserCellFactory(senderCombo);
+        applyUserCellFactory(receiverCombo);
+    }
 
-        receiverCombo.setButtonCell(new ListCell<User>() {
+    private void applyUserCellFactory(ComboBox<User> combo) {
+        combo.setCellFactory(cb -> new ListCell<>() {
             @Override
             protected void updateItem(User user, boolean empty) {
                 super.updateItem(user, empty);
-                if (empty || user == null) {
-                    setText(null);
-                } else {
-                    setText(getUserDisplayName(user));
-                }
+                setText(empty || user == null ? null : getUserDisplayName(user));
             }
         });
+        combo.setButtonCell(new ListCell<>() {
+            @Override
+            protected void updateItem(User user, boolean empty) {
+                super.updateItem(user, empty);
+                setText(empty || user == null ? null : getUserDisplayName(user));
+            }
+        });
+    }
+
+    public void onSelection() {
+        User selected = senderCombo.getValue();
+        if (selected == null) return;
+
+        User other = senderCombo.getItems().stream()
+                .filter(u -> !u.getId().equals(selected.getId()))
+                .findFirst()
+                .orElse(null);
+
+        receiverCombo.setValue(other);
     }
 
     private String getUserDisplayName(User user) {
@@ -188,6 +179,7 @@ public class MessageHandler {
         clear();
         if (messages != null && !messages.isEmpty()) {
             messageTable.getItems().setAll(messages);
+            setupComboBoxes(messages);
         }
     }
 
@@ -195,24 +187,10 @@ public class MessageHandler {
         messageTable.getItems().clear();
     }
 
-    public List<Message> getMessages() {
-        return messageTable.getItems();
-    }
-
     public void addMessage(Message message) {
         if (message != null) {
             messageTable.getItems().add(message);
             clearForm();
-        }
-    }
-
-    public void removeMessage(Message message) {
-        messageTable.getItems().remove(message);
-    }
-
-    public void removeMessage(int index) {
-        if (index >= 0 && index < messageTable.getItems().size()) {
-            messageTable.getItems().remove(index);
         }
     }
 
@@ -249,19 +227,5 @@ public class MessageHandler {
         msg.setRead(false);
 
         return msg;
-    }
-
-    public void setSenderOptions(List<? extends User> senders) {
-        senderCombo.getItems().clear();
-        if (senders != null && !senders.isEmpty()) {
-            senderCombo.getItems().addAll(senders);
-        }
-    }
-
-    public void setReceiverOptions(List<? extends User> receivers) {
-        receiverCombo.getItems().clear();
-        if (receivers != null && !receivers.isEmpty()) {
-            receiverCombo.getItems().addAll(receivers);
-        }
     }
 }

@@ -291,7 +291,7 @@
 
                         <Separator />
 
-                        <ComboBox fx:id="msgSenderCombo" />
+                        <ComboBox fx:id="msgSenderCombo" onAction="#selectSender" />
                         <ComboBox fx:id="msgReceiverCombo" />
                         <TextArea fx:id="msgContentField" />
 

@@ -15,19 +15,8 @@ public enum DishCategory {
     DUMPLING,
     STIR_FRY,
 
-    APPETIZER,
-    MAIN_COURSE,
     DESSERT,
     DRINK,
     SALAD,
     SOUP,
-    SIDE_DISH,
-    SNACK,
-    BREAKFAST,
-    SEAFOOD,
-    VEGAN,
-    VEGETARIAN,
-    GLUTEN_FREE,
-    KIDS_MEAL,
-    SIDES
 }

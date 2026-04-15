@@ -1,6 +1,7 @@
 package lt.linas_puplauskas.tasty.fxControllers.component;
 
 import javafx.beans.property.SimpleStringProperty;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
@@ -170,6 +171,7 @@ public class OrderController implements Initializable {
     private final RestaurantService restaurantService = new RestaurantService();
 
     private Restaurant selectedRestaurant;
+    private List<Order> allOrders;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -383,16 +385,38 @@ public class OrderController implements Initializable {
 
         orderTable.getItems().clear();
 
-        List<Order> orders = orderService.findAll(
-                new OrderSearchCriteria(selectedRestaurant)
-        );
-
-        orderTable.getItems().addAll(orders);
+        allOrders = orderService.findAll(new OrderSearchCriteria(selectedRestaurant));
+        orderTable.getItems().addAll(allOrders);
         orderTable.setColumnResizePolicy(TableView.UNCONSTRAINED_RESIZE_POLICY);
         orderTable.setFixedCellSize(32);
     }
 
     private void initStatusSearch() {
-        statusFilterCombo.getItems().setAll(OrderStatus.values());
+        statusFilterCombo.getItems().add(null);
+        statusFilterCombo.getItems().addAll(OrderStatus.values());
+
+        searchField.textProperty().addListener((obs, oldVal, newVal) -> applyFilters());
+        statusFilterCombo.valueProperty().addListener((obs, oldVal, newVal) -> applyFilters());
+    }
+
+    private void applyFilters() {
+        if (allOrders == null) return;
+
+        String search = searchField.getText().toLowerCase();
+        OrderStatus selectedStatus = statusFilterCombo.getValue();
+
+        List<Order> filtered = allOrders.stream()
+                .filter(o -> selectedStatus == null || o.getStatus().equals(selectedStatus))
+                .filter(o -> search.isBlank()
+                        || (o.getBuyer() != null && o.getBuyer().toString().toLowerCase().contains(search))
+                        || (o.getId() != null && o.getId().toString().toLowerCase().contains(search))
+                        || (o.getPaymentMethod() != null && o.getPaymentMethod().toLowerCase().contains(search)))
+                .toList();
+
+        orderTable.getItems().setAll(filtered);
+    }
+
+    public void selectSender() {
+        messageHandler.onSelection();
     }
 }

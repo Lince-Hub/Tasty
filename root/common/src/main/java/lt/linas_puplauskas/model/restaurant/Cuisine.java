@@ -8,8 +8,5 @@ public enum Cuisine {
     INDIAN,
     AMERICAN,
     FRENCH,
-    THAI,
-    KOREAN,
-    MEDITERRANEAN,
     LITHUANIAN
 }
