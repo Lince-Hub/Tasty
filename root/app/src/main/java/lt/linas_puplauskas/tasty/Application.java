@@ -37,7 +37,8 @@ public class Application extends javafx.application.Application {
         stage.show();
 //        stage.centerOnScreen();
 
-        initDev();
+//        initDev();
+        initRestaurant();
     }
 
     @Override
@@ -53,6 +54,13 @@ public class Application extends javafx.application.Application {
     public void initDev() throws IOException {
         UserService userService = new UserService(User.class);
         currentUser = (User) userService.findFirst(new UserSearchCriteria(new ObjectId("65000000000000000000000a")));
+
+        RouteService.route("main-view.fxml");
+    }
+
+    public void initRestaurant() throws IOException {
+        UserService userService = new UserService(User.class);
+        currentUser = (User) userService.findFirst(new UserSearchCriteria(new ObjectId("650000000000000000000001")));
 
         RouteService.route("main-view.fxml");
     }

@@ -3,6 +3,7 @@ package lt.linas_puplauskas.tasty.fxControllers;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 import lt.linas_puplauskas.model.restaurant.Restaurant;
@@ -21,6 +22,12 @@ public class MainViewController implements Initializable {
     public Label loggedInLabel;
     @FXML
     public BorderPane borderPane;
+    @FXML
+    public Button usersButton;
+    @FXML
+    public Button menuButton;
+    @FXML
+    public Button statisticsButton;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -28,8 +35,10 @@ public class MainViewController implements Initializable {
             User user = Application.getCurrentUser();
             loggedInLabel.setText("Logged in as: " + user.getUsername());
             if(!(user.getRole() == UserRole.ADMIN)) {
-                //Show only restaurant view
-                Restaurant restaurant = (Restaurant) user;
+                usersButton.setVisible(false);
+                usersButton.setManaged(false);
+                statisticsButton.setVisible(false);
+                statisticsButton.setManaged(false);
             }
         }
     }

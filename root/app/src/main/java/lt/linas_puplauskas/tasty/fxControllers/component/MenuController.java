@@ -1,6 +1,7 @@
 package lt.linas_puplauskas.tasty.fxControllers.component;
 
 import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
@@ -15,8 +16,11 @@ import lt.linas_puplauskas.model.restaurant.Dish;
 import lt.linas_puplauskas.model.restaurant.DishCategory;
 import lt.linas_puplauskas.model.restaurant.Restaurant;
 import lt.linas_puplauskas.model.restaurant.RestaurantSearchCriteria;
+import lt.linas_puplauskas.model.user.User;
 import lt.linas_puplauskas.model.user.UserRole;
+import lt.linas_puplauskas.model.user.UserSearchCriteria;
 import lt.linas_puplauskas.service.RestaurantService;
+import lt.linas_puplauskas.tasty.Application;
 
 import java.net.URL;
 import java.util.List;
@@ -42,6 +46,12 @@ public class MenuController implements Initializable {
     @FXML
     private TableColumn<Dish, Boolean> availableCol;
     @FXML
+    public TableColumn<Dish, String> allergensCol;
+    @FXML
+    public TableColumn<Dish, Integer> amountCol;
+    @FXML
+    public TableColumn<Dish, String> imageUrlCol;
+    @FXML
     private TableColumn<Dish, Void> actionsCol;
     @FXML
     private VBox dishFormPane;
@@ -60,6 +70,12 @@ public class MenuController implements Initializable {
     @FXML
     private TextField weightField;
     @FXML
+    public TextField allergensField;
+    @FXML
+    public TextField amountField;
+    @FXML
+    public TextField imageUrlField;
+    @FXML
     private CheckBox availableCheck;
 
     private final RestaurantService restaurantService = new RestaurantService();
@@ -72,8 +88,22 @@ public class MenuController implements Initializable {
     }
 
     private void loadRestaurants() {
-        List<Restaurant> restaurants = restaurantService.findAll(new RestaurantSearchCriteria(UserRole.RESTAURANT));
-        restaurantComboBox.getItems().setAll(restaurants);
+        User user = Application.getCurrentUser();
+
+        if (user.getRole() == UserRole.RESTAURANT) {
+            Restaurant selectedRestaurant = (Restaurant) restaurantService.findFirst(
+                    new UserSearchCriteria(user.getId())
+            );
+            restaurantComboBox.getItems().setAll(selectedRestaurant);
+            restaurantComboBox.setValue(selectedRestaurant);
+            restaurantComboBox.setDisable(true);
+            onSelectRestaurant();
+        } else {
+            List<Restaurant> restaurants = restaurantService.findAll(
+                    new RestaurantSearchCriteria(UserRole.RESTAURANT)
+            );
+            restaurantComboBox.getItems().setAll(restaurants);
+        }
     }
 
     private void setupTableColumns() {
@@ -126,6 +156,7 @@ public class MenuController implements Initializable {
         );
         availableCol.setCellFactory(col -> new TableCell<>() {
             private final CheckBox checkBox = new CheckBox();
+
             {
                 checkBox.setOnAction(e -> {
                     Dish dish = getTableView().getItems().get(getIndex());
@@ -133,6 +164,7 @@ public class MenuController implements Initializable {
                     saveRestaurant();
                 });
             }
+
             @Override
             protected void updateItem(Boolean value, boolean empty) {
                 super.updateItem(value, empty);
@@ -145,9 +177,41 @@ public class MenuController implements Initializable {
             }
         });
 
+        allergensCol.setCellValueFactory(cellData ->
+                new SimpleStringProperty(
+                        cellData.getValue().getAllergens() != null
+                                ? String.join(", ", cellData.getValue().getAllergens())
+                                : ""
+                )
+        );
+        allergensCol.setCellFactory(TextFieldTableCell.forTableColumn());
+        allergensCol.setOnEditCommit(e -> {
+            String raw = e.getNewValue();
+            List<String> allergens = raw.isBlank()
+                    ? List.of()
+                    : List.of(raw.split(",\\s*"));
+            e.getRowValue().setAllergens(allergens);
+            saveRestaurant();
+        });
+
+        amountCol.setCellValueFactory(new PropertyValueFactory<>("amount"));
+        amountCol.setCellFactory(TextFieldTableCell.forTableColumn(new IntegerStringConverter()));
+        amountCol.setOnEditCommit(e -> {
+            e.getRowValue().setAmount(e.getNewValue());
+            saveRestaurant();
+        });
+
+        imageUrlCol.setCellValueFactory(new PropertyValueFactory<>("imageUrl"));
+        imageUrlCol.setCellFactory(TextFieldTableCell.forTableColumn());
+        imageUrlCol.setOnEditCommit(e -> {
+            e.getRowValue().setImageUrl(e.getNewValue());
+            saveRestaurant();
+        });
+
         actionsCol.setCellFactory(col -> new TableCell<>() {
             private final Button deleteBtn = new Button("✖");
             private final HBox buttons = new HBox(5, deleteBtn);
+
             {
                 deleteBtn.setOnAction(e -> {
                     Dish dish = getTableView().getItems().get(getIndex());
@@ -157,6 +221,7 @@ public class MenuController implements Initializable {
                     dishTable.getItems().remove(dish);
                 });
             }
+
             @Override
             protected void updateItem(Void item, boolean empty) {
                 super.updateItem(item, empty);
@@ -206,9 +271,16 @@ public class MenuController implements Initializable {
         dish.setCalories(Integer.parseInt(caloriesField.getText()));
         dish.setWeight(Float.parseFloat(weightField.getText()));
         dish.setAvailable(availableCheck.isSelected());
+        dish.setAllergens(
+                allergensField.getText().isBlank()
+                        ? List.of()
+                        : List.of(allergensField.getText().split(",\\s*"))
+        );
+        dish.setAmount(Integer.parseInt(amountField.getText()));
+        dish.setImageUrl(imageUrlField.getText());
 
         selected.getMenu().add(dish);
-        restaurantService.update(selected); // persist
+        restaurantService.update(selected);
         dishTable.getItems().add(dish);
 
         onToggleDishForm();
@@ -223,5 +295,8 @@ public class MenuController implements Initializable {
         caloriesField.clear();
         weightField.clear();
         availableCheck.setSelected(false);
+        allergensField.clear();
+        amountField.clear();
+        imageUrlField.clear();
     }
 }

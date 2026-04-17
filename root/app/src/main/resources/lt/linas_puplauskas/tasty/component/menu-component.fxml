@@ -26,6 +26,9 @@
             <TableColumn fx:id="prepTimeCol" text="Prep (min)" prefWidth="80"/>
             <TableColumn fx:id="caloriesCol" text="Calories" prefWidth="80"/>
             <TableColumn fx:id="weightCol" text="Weight (g)" prefWidth="80"/>
+            <TableColumn fx:id="allergensCol" text="Allergens" prefWidth="120"/>
+            <TableColumn fx:id="amountCol" text="Amount" prefWidth="70"/>
+            <TableColumn fx:id="imageUrlCol" text="Image URL" prefWidth="120"/>
             <TableColumn fx:id="availableCol" text="Available" prefWidth="80"/>
             <TableColumn fx:id="actionsCol" text="Actions" prefWidth="80"/>
         </columns>
@@ -64,6 +67,15 @@
 
             <Label text="Available:" GridPane.rowIndex="7"/>
             <CheckBox fx:id="availableCheck" GridPane.columnIndex="1" GridPane.rowIndex="7"/>
+
+            <Label text="Allergens:" GridPane.rowIndex="8"/>
+            <TextField fx:id="allergensField" promptText="e.g. gluten,nuts" GridPane.columnIndex="1" GridPane.rowIndex="8"/>
+
+            <Label text="Amount:" GridPane.rowIndex="9"/>
+            <TextField fx:id="amountField" promptText="0" GridPane.columnIndex="1" GridPane.rowIndex="9"/>
+
+            <Label text="Image URL:" GridPane.rowIndex="10"/>
+            <TextField fx:id="imageUrlField" promptText="https://..." GridPane.columnIndex="1" GridPane.rowIndex="10"/>
 
             <columnConstraints>
                 <ColumnConstraints/>

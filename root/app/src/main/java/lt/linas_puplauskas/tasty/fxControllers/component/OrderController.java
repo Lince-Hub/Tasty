@@ -18,8 +18,10 @@ import lt.linas_puplauskas.model.restaurant.Restaurant;
 import lt.linas_puplauskas.model.restaurant.RestaurantSearchCriteria;
 import lt.linas_puplauskas.model.user.User;
 import lt.linas_puplauskas.model.user.UserRole;
+import lt.linas_puplauskas.model.user.UserSearchCriteria;
 import lt.linas_puplauskas.service.OrderService;
 import lt.linas_puplauskas.service.RestaurantService;
+import lt.linas_puplauskas.tasty.Application;
 import lt.linas_puplauskas.tasty.fxControllers.component.order.*;
 
 import java.net.URL;
@@ -175,72 +177,70 @@ public class OrderController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-
         tabPane.setDisable(true);
         initStatusSearch();
-        loadRestaurants();
         setupTableSelection();
 
+        User user = Application.getCurrentUser();
+
+        if (user.getRole() != UserRole.ADMIN) {
+            restaurantComboBox.setVisible(false);
+            restaurantComboBox.setManaged(false);
+
+            selectedRestaurant = (Restaurant) restaurantService.findFirst(
+                    new UserSearchCriteria(user.getId())
+            );
+            initOrderTable();
+
+            paymentMethodField.setEditable(false);
+            totalPriceField.setEditable(false);
+            deliveryFeeField.setEditable(false);
+            estimatedDeliveryField.setEditable(false);
+            deliveredAtField.setEditable(false);
+            specialInstructionsArea.setEditable(false);
+
+            tabPane.getTabs().get(1).setDisable(true);
+            tabPane.getTabs().get(2).setDisable(true);
+            tabPane.getTabs().get(4).setDisable(true);
+            tabPane.getTabs().get(5).setDisable(true);
+
+            actionsColumn.setVisible(false);
+
+        } else {
+            loadRestaurants();
+        }
+
         orderHandler = new OrderFormHandler(
-                orderIdLabel,
-                statusCombo,
-                paymentMethodField,
-                totalPriceField,
-                deliveryFeeField,
-                estimatedDeliveryField,
-                deliveredAtField,
-                specialInstructionsArea
+                orderIdLabel, statusCombo, paymentMethodField,
+                totalPriceField, deliveryFeeField, estimatedDeliveryField,
+                deliveredAtField, specialInstructionsArea
         );
 
         clientHandler = new ClientFormHandler(
-                clientNameField,
-                clientSurnameField,
-                clientEmailField,
-                clientPhoneField,
-                clientAddressField,
-                clientBalanceField,
-                clientBonusField
+                clientNameField, clientSurnameField, clientEmailField,
+                clientPhoneField, clientAddressField, clientBalanceField, clientBonusField
         );
 
         driverHandler = new DriverFormHandler(
-                driverNameField,
-                driverSurnameField,
-                driverPhoneField,
-                driverLicenceField,
-                driverVehicleCombo,
-                driverPlateField,
-                driverRatingField,
-                driverAvailableCheck
+                driverNameField, driverSurnameField, driverPhoneField,
+                driverLicenceField, driverVehicleCombo, driverPlateField,
+                driverRatingField, driverAvailableCheck
         );
 
         itemHandler = new ItemHandler(
-                itemsTable,
-                itemTitleCol,
-                itemCategoryCol,
-                itemPriceCol,
-                itemAmountCol,
-                itemCalCol,
-                itemWeightCol
+                itemsTable, itemTitleCol, itemCategoryCol,
+                itemPriceCol, itemAmountCol, itemCalCol, itemWeightCol
         );
 
         reviewHandler = new ReviewHandler(
-                reviewTitleField,
-                reviewRatingSpinner,
-                reviewCreatedAtField,
-                reviewCommentArea
+                reviewTitleField, reviewRatingSpinner,
+                reviewCreatedAtField, reviewCommentArea
         );
 
         messageHandler = new MessageHandler(
-                messagesTable,
-                msgSenderCol,
-                msgReceiverCol,
-                msgContentCol,
-                msgSentAtCol,
-                msgReadCol,
-                msgSenderCombo,
-                msgReceiverCombo,
-                msgContentField,
-                messageFormPane
+                messagesTable, msgSenderCol, msgReceiverCol,
+                msgContentCol, msgSentAtCol, msgReadCol,
+                msgSenderCombo, msgReceiverCombo, msgContentField, messageFormPane
         );
     }
 
@@ -272,35 +272,25 @@ public class OrderController implements Initializable {
         Order selectedOrder = orderTable.getSelectionModel().getSelectedItem();
 
         if (selectedOrder == null) {
-            Alert alert = new Alert(Alert.AlertType.WARNING);
-            alert.setTitle("No Selection");
-            alert.setHeaderText("No Order Selected");
-            alert.setContentText("Please select an order from the table to save changes.");
-            alert.showAndWait();
+            new Alert(Alert.AlertType.WARNING, "Please select an order.").showAndWait();
             return;
         }
 
-        orderHandler.update(selectedOrder);
+        User user = Application.getCurrentUser();
 
-        if (selectedOrder.getBuyer() != null) {
-            clientHandler.update(selectedOrder.getBuyer());
-        }
-
-        if (selectedOrder.getDeliveryPerson() != null) {
-            driverHandler.update(selectedOrder.getDeliveryPerson());
-        }
-
-        if (selectedOrder.getReview() != null) {
-            reviewHandler.update(selectedOrder.getReview());
+        if (user.getRole() != UserRole.ADMIN) {
+            selectedOrder.setStatus(statusCombo.getValue());
+        } else {
+            orderHandler.update(selectedOrder);
+            if (selectedOrder.getBuyer() != null) clientHandler.update(selectedOrder.getBuyer());
+            if (selectedOrder.getDeliveryPerson() != null) driverHandler.update(selectedOrder.getDeliveryPerson());
+            if (selectedOrder.getReview() != null) reviewHandler.update(selectedOrder.getReview());
         }
 
         orderService.update(selectedOrder);
         orderTable.refresh();
 
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Success");
-        alert.setHeaderText("Order Updated");
-        alert.setContentText("Order #" + selectedOrder.getId() + " has been successfully updated.");
+        new Alert(Alert.AlertType.INFORMATION, "Order #" + selectedOrder.getId() + " updated.").showAndWait();
     }
 
     @FXML

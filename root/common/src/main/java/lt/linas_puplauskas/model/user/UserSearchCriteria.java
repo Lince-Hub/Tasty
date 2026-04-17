@@ -16,9 +16,9 @@ public class UserSearchCriteria {
     private String password;
     private UserRole role;
 
-    public UserSearchCriteria(String password, String username) {
-        this.password = password;
+    public UserSearchCriteria(String username, String password) {
         this.username = username;
+        this.password = password;
     }
 
     public UserSearchCriteria(ObjectId id) {
