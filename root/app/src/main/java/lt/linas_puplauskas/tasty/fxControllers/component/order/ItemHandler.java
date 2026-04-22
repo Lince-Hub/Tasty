@@ -12,7 +12,7 @@ public class ItemHandler {
     private final TableView<Dish> itemsTable;
     private final TableColumn<Dish, String> titleCol;
     private final TableColumn<Dish, String> categoryCol;
-    private final TableColumn<Dish, Integer> priceCol;
+    private final TableColumn<Dish, Double> priceCol;
     private final TableColumn<Dish, Integer> amountCol;
     private final TableColumn<Dish, Integer> caloriesCol;
     private final TableColumn<Dish, Float> weightCol;
@@ -20,7 +20,7 @@ public class ItemHandler {
     public ItemHandler(TableView<Dish> itemsTable,
                        TableColumn<Dish, String> titleCol,
                        TableColumn<Dish, String> categoryCol,
-                       TableColumn<Dish, Integer> priceCol,
+                       TableColumn<Dish, Double> priceCol,
                        TableColumn<Dish, Integer> amountCol,
                        TableColumn<Dish, Integer> caloriesCol,
                        TableColumn<Dish, Float> weightCol) {

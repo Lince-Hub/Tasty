@@ -1,23 +1,17 @@
 package lt.linas_puplauskas.model.order;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lt.linas_puplauskas.model.restaurant.Restaurant;
 import org.bson.types.ObjectId;
 
-@AllArgsConstructor
 @Getter
 @Setter
+@NoArgsConstructor
 public class OrderSearchCriteria {
-    private ObjectId id;
-    private Restaurant restaurant;
+    private ObjectId restaurantId;
 
-    public OrderSearchCriteria(ObjectId id) {
-        this.id = id;
-    }
-
-    public OrderSearchCriteria(Restaurant restaurant) {
-        this.restaurant = restaurant;
+    public OrderSearchCriteria(ObjectId restaurantId) {
+        this.restaurantId = restaurantId;
     }
 }

@@ -6,6 +6,9 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import lt.linas_puplauskas.model.order.Order;
 import lt.linas_puplauskas.model.order.OrderStatus;
+import lt.linas_puplauskas.model.user.User;
+import lt.linas_puplauskas.model.user.UserRole;
+import lt.linas_puplauskas.tasty.Application;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -52,7 +55,27 @@ public class OrderFormHandler {
         }
 
         orderIdLabel.setText(order.getId() != null ? order.getId().toHexString() : "New Order");
+
+        User user = Application.getCurrentUser();
+
+        if (user.getRole() == UserRole.ADMIN) {
+            statusCombo.getItems().setAll(OrderStatus.values());
+            statusCombo.setDisable(false);
+        } else {
+            if (order.getStatus() == OrderStatus.PENDING) {
+                statusCombo.getItems().setAll(
+                        OrderStatus.READY_FOR_PICKUP,
+                        OrderStatus.CANCELLED
+                );
+                statusCombo.setDisable(false);
+            } else {
+                statusCombo.getItems().setAll(order.getStatus());
+                statusCombo.setDisable(true);
+            }
+        }
+
         statusCombo.setValue(order.getStatus());
+
         paymentMethodField.setText(order.getPaymentMethod());
         totalPriceField.setText(String.valueOf(order.getTotalPrice()));
         deliveryFeeField.setText(String.valueOf(order.getDeliveryFee()));

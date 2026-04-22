@@ -17,13 +17,15 @@ import org.bson.conversions.Bson;
 
 public class MongoConfig {
     private static MongoClient mongoClient;
-    private static MongoDatabase mongoDatabase;
-    //TODO Change Sout to logs
+    public static MongoDatabase mongoDatabase;
+
     public static void connect() {
         MongoClientSettings settings = MongoClientSettings.builder().applyConnectionString(new ConnectionString("mongodb://localhost:27017")).build();
         mongoClient = MongoClients.create(settings);
         CodecRegistry pojoCodecRegistry = CodecRegistries.fromRegistries(MongoClientSettings.getDefaultCodecRegistry(), CodecRegistries.fromProviders(new CodecProvider[]{PojoCodecProvider.builder().automatic(true).build()}));
         mongoDatabase = mongoClient.getDatabase("tasty").withCodecRegistry(pojoCodecRegistry);
+        MongoClientSettings.builder()
+                .applyConnectionString(new ConnectionString("mongodb://localhost:27017"));
 
         try {
             Bson command = new BsonDocument("ping", new BsonInt64(1L));
@@ -47,9 +49,8 @@ public class MongoConfig {
 
     public static MongoDatabase getDatabase() {
         if (mongoDatabase == null) {
-            throw new IllegalStateException("Not connected. Call connect() first.");
-        } else {
-            return mongoDatabase;
+            connect();
         }
+        return mongoDatabase;
     }
 }

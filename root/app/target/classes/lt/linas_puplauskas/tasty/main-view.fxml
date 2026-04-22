@@ -1,38 +1,40 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Font?>
-
-<BorderPane fx:id="borderPane" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lt.linas_puplauskas.tasty.fxControllers.MainViewController">
+<BorderPane fx:id="borderPane" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="lt.linas_puplauskas.tasty.fxControllers.MainViewController">
     <top>
         <HBox alignment="CENTER" style="-fx-spacing: 20; -fx-padding: 5;">
             <Label alignment="CENTER" text="Tasty Panel">
-            <font>
-               <Font size="20.0" />
-            </font></Label>
-            <HBox prefHeight="25.0" prefWidth="351.0" style="-fx-padding: 20;" HBox.hgrow="ALWAYS" />
-            <Label fx:id="loggedInLabel" alignment="CENTER" text="Logged in as: " />
-            <Button onAction="#logOut" text="Logout" />
+                <font>
+                    <Font size="20.0"/>
+                </font>
+            </Label>
+            <HBox prefHeight="25.0" prefWidth="351.0" style="-fx-padding: 20;" HBox.hgrow="ALWAYS"/>
+            <Label fx:id="loggedInLabel" alignment="CENTER" text="Logged in as: "/>
+            <Button onAction="#logOut" text="Logout"/>
         </HBox>
     </top>
 
     <left>
         <VBox alignment="TOP_CENTER" prefHeight="336.0" prefWidth="112.0" style="-fx-spacing: 10;">
-            <Button fx:id="usersButton" onAction="#showUsers" prefHeight="25.0" prefWidth="100.0" text="Users" />
-         <Button onAction="#showOrders" prefHeight="25.0" prefWidth="100.0" text="Orders" />
-         <Button onAction="#showMenu" prefHeight="25.0" prefWidth="100.0" text="Menu" />
-         <Button fx:id="statisticsButton" onAction="#showStatistics" prefHeight="25.0" prefWidth="100.0" text="Statistics" />
+            <Button fx:id="usersButton" onAction="#showUsers" prefHeight="25.0" prefWidth="100.0" text="Users"/>
+            <Button onAction="#showOrders" prefHeight="25.0" prefWidth="100.0" text="Orders"/>
+            <Button onAction="#showMenu" prefHeight="25.0" prefWidth="100.0" text="Menu"/>
+            <Button fx:id="statisticsButton" onAction="#showStatistics" prefHeight="25.0" prefWidth="100.0"
+                    text="Statistics"/>
+            <Button fx:id="showProfile" onAction="#showProfile" prefHeight="25.0" prefWidth="100.0"
+                    text="Profile" visible="false"/>
+
         </VBox>
     </left>
 
     <center>
         <VBox alignment="CENTER" prefHeight="336.0" prefWidth="572.0">
-            <Label alignment="CENTER" text="Welcome to the Admin Dashboard" />
-            <Label alignment="CENTER" text="Select a section from the left menu." />
+            <Label alignment="CENTER" text="Welcome to the Admin Dashboard"/>
+            <Label alignment="CENTER" text="Select a section from the left menu."/>
         </VBox>
     </center>
 </BorderPane>

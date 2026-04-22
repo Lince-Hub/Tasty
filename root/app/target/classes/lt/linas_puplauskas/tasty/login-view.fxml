@@ -1,32 +1,40 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.PasswordField?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
+<StackPane xmlns="http://javafx.com/javafx/25"
+           xmlns:fx="http://javafx.com/fxml/1"
+           fx:controller="lt.linas_puplauskas.tasty.fxControllers.LoginInController">
 
-<VBox alignment="CENTER" prefHeight="436.0" prefWidth="519.0" spacing="20.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lt.linas_puplauskas.tasty.fxControllers.LoginInController">
-    <padding>
-        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
-    </padding>
-   <children>
-      <Pane prefHeight="408.0" prefWidth="479.0">
-         <children>
-            <TextField fx:id="usernameTextField" layoutX="144.0" layoutY="130.0" prefHeight="25.0" prefWidth="191.0" promptText="Username" />
-            <Label layoutX="156.0" layoutY="41.0" prefHeight="30.0" prefWidth="167.0" text="Welcome to Tasty!">
-               <font>
-                  <Font size="20.0" />
-               </font>
-            </Label>
-            <Button layoutX="144.0" layoutY="205.0" mnemonicParsing="false" onAction="#loginIn" prefHeight="25.0" prefWidth="191.0" text="Login in" textAlignment="CENTER" />
-            <Label layoutX="146.0" layoutY="271.0" text="Don't have an Account?" textAlignment="CENTER" />
-            <Button layoutX="275.0" layoutY="267.0" mnemonicParsing="false" onAction="#routeToRegister" prefHeight="25.0" prefWidth="61.0" text="Create" textFill="RED" />
-            <PasswordField fx:id="passwordPasswordField" layoutX="144.0" layoutY="167.0" prefHeight="25.0" prefWidth="191.0" promptText="Password" />
-         </children>
-      </Pane>
-   </children>
-</VBox>
+   <VBox alignment="CENTER" spacing="15.0"
+         maxWidth="400.0"
+         prefWidth="300.0"
+         fx:id="rootBox">
+
+      <padding>
+         <Insets top="20" right="20" bottom="20" left="20"/>
+      </padding>
+
+      <Label text="Welcome to Tasty!">
+         <font>
+            <Font size="20.0"/>
+         </font>
+      </Label>
+
+      <TextField fx:id="usernameTextField" promptText="Username"/>
+      <PasswordField fx:id="passwordPasswordField" promptText="Password"/>
+
+      <Button text="Login in" onAction="#loginIn"/>
+
+      <HBox alignment="CENTER" spacing="5">
+         <Label text="Don't have an Account?"/>
+         <Button text="Create" onAction="#routeToRegister"/>
+      </HBox>
+
+   </VBox>
+
+</StackPane>

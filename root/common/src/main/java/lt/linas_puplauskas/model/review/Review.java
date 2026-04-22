@@ -16,6 +16,5 @@ public class Review {
     private String title;
     private LocalDateTime createdAt;
     private Restaurant reviewedRestaurant;
-    private Driver reviewedDriver;
     private String comment;
 }

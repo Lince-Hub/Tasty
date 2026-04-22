@@ -10,7 +10,7 @@ import org.bson.conversions.Bson;
 import org.bson.types.ObjectId;
 
 public abstract class DaoService<T extends DaoObject, K> {
-    protected final MongoDatabase mongoDatabase =  MongoConfig.getDatabase();
+    protected static MongoDatabase mongoDatabase = MongoConfig.getDatabase();
     private final Class<T> entityClass;
 
     public abstract String getTableName();

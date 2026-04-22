@@ -25,12 +25,8 @@ public class OrderService extends DaoService<Order, OrderSearchCriteria> {
     public Bson processCriteria(OrderSearchCriteria criteria) {
         List<Bson> filters = new ArrayList<>();
 
-        if (criteria.getId() != null) {
-            filters.add(Filters.eq("_id", criteria.getId()));
-        }
-
-        if (criteria.getRestaurant() != null) {
-            filters.add(Filters.eq("restaurant._id", criteria.getRestaurant().getId()));
+        if (criteria.getRestaurantId() != null) {
+            filters.add(Filters.eq("restaurantId", criteria.getRestaurantId()));
         }
 
         return filters.isEmpty() ? new Document() : Filters.and(filters);

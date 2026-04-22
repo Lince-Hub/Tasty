@@ -10,6 +10,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.util.converter.DoubleStringConverter;
 import javafx.util.converter.FloatStringConverter;
 import javafx.util.converter.IntegerStringConverter;
 import lt.linas_puplauskas.model.restaurant.Dish;
@@ -36,7 +37,7 @@ public class MenuController implements Initializable {
     @FXML
     private TableColumn<Dish, DishCategory> categoryCol;
     @FXML
-    private TableColumn<Dish, Integer> priceCol;
+    private TableColumn<Dish, Double> priceCol;
     @FXML
     private TableColumn<Dish, Integer> prepTimeCol;
     @FXML
@@ -124,7 +125,7 @@ public class MenuController implements Initializable {
         });
 
         priceCol.setCellValueFactory(new PropertyValueFactory<>("price"));
-        priceCol.setCellFactory(TextFieldTableCell.forTableColumn(new IntegerStringConverter()));
+        priceCol.setCellFactory(TextFieldTableCell.forTableColumn(new DoubleStringConverter()));
         priceCol.setOnEditCommit(e -> {
             e.getRowValue().setPrice(e.getNewValue());
             saveRestaurant();
@@ -265,7 +266,7 @@ public class MenuController implements Initializable {
         Dish dish = new Dish();
         dish.setTitle(titleField.getText());
         dish.setDescription(descriptionField.getText());
-        dish.setPrice(Integer.parseInt(priceField.getText()));
+        dish.setPrice(Double.parseDouble(priceField.getText()));
         dish.setCategory(categoryCombo.getValue());
         dish.setPreparationTimeMin(Integer.parseInt(prepTimeField.getText()));
         dish.setCalories(Integer.parseInt(caloriesField.getText()));

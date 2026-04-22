@@ -1,5 +1,6 @@
 package lt.linas_puplauskas.tasty.fxControllers;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -10,6 +11,7 @@ import lt.linas_puplauskas.model.restaurant.Restaurant;
 import lt.linas_puplauskas.model.user.UserRole;
 import lt.linas_puplauskas.tasty.Application;
 import lt.linas_puplauskas.model.user.User;
+import lt.linas_puplauskas.tasty.fxControllers.detail.RestaurantDetailController;
 import lt.linas_puplauskas.tasty.service.RouteService;
 
 import java.io.IOException;
@@ -28,6 +30,8 @@ public class MainViewController implements Initializable {
     public Button menuButton;
     @FXML
     public Button statisticsButton;
+    @FXML
+    public Button showProfile;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -39,6 +43,7 @@ public class MainViewController implements Initializable {
                 usersButton.setManaged(false);
                 statisticsButton.setVisible(false);
                 statisticsButton.setManaged(false);
+                showProfile.setVisible(true);
             }
         }
     }
@@ -66,5 +71,12 @@ public class MainViewController implements Initializable {
     public void logOut() throws IOException {
         Application.setCurrentUser(null);
         RouteService.route("login-view.fxml");
+    }
+
+    public void showProfile() throws IOException {
+        FXMLLoader loader = new FXMLLoader(Application.class.getResource("detail/restaurant-detail.fxml"));
+        RestaurantDetailController restaurantDetailController = RouteService.routeAndGetController("detail/restaurant-detail.fxml");
+        restaurantDetailController.setUser(Application.getCurrentUser());
+        borderPane.setCenter(loader.load());
     }
 }

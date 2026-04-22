@@ -14,7 +14,7 @@ public class Dish {
     private ObjectId id;
     private String title;
     private String description;
-    private int price;
+    private double price;
     private DishCategory category;
     private int preparationTimeMin;
     private boolean isAvailable;

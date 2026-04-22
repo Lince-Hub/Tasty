@@ -1,13 +1,14 @@
 package lt.linas_puplauskas.tasty.fxControllers.component;
 
 import javafx.beans.property.SimpleStringProperty;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import lt.linas_puplauskas.model.client.Client;
+import lt.linas_puplauskas.model.driver.Driver;
 import lt.linas_puplauskas.model.driver.Message;
 import lt.linas_puplauskas.model.driver.VehicleType;
 import lt.linas_puplauskas.model.order.Order;
@@ -19,6 +20,8 @@ import lt.linas_puplauskas.model.restaurant.RestaurantSearchCriteria;
 import lt.linas_puplauskas.model.user.User;
 import lt.linas_puplauskas.model.user.UserRole;
 import lt.linas_puplauskas.model.user.UserSearchCriteria;
+import lt.linas_puplauskas.service.ClientService;
+import lt.linas_puplauskas.service.DriverService;
 import lt.linas_puplauskas.service.OrderService;
 import lt.linas_puplauskas.service.RestaurantService;
 import lt.linas_puplauskas.tasty.Application;
@@ -56,7 +59,7 @@ public class OrderController implements Initializable {
     @FXML
     public TableColumn<Order, String> deliveredAtColumn;
     @FXML
-    public TableColumn<Order, Integer> deliveryFeeColumn;
+    public TableColumn<Order, Double> deliveryFeeColumn;
     @FXML
     public TableColumn<Order, Integer> estDeliveryColumn;
     @FXML
@@ -121,7 +124,7 @@ public class OrderController implements Initializable {
     @FXML
     private TableColumn<Dish, String> itemCategoryCol;
     @FXML
-    private TableColumn<Dish, Integer> itemPriceCol;
+    private TableColumn<Dish, Double> itemPriceCol;
     @FXML
     private TableColumn<Dish, Integer> itemAmountCol;
     @FXML
@@ -171,6 +174,8 @@ public class OrderController implements Initializable {
 
     private final OrderService orderService = new OrderService(Order.class);
     private final RestaurantService restaurantService = new RestaurantService();
+    private final ClientService clientService = new ClientService();
+    private final DriverService driverService = new DriverService();
 
     private Restaurant selectedRestaurant;
     private List<Order> allOrders;
@@ -260,8 +265,13 @@ public class OrderController implements Initializable {
 
     private void fillForm(Order order) {
         orderHandler.fill(order);
-        clientHandler.fill(order.getBuyer());
-        driverHandler.fill(order.getDeliveryPerson());
+
+        Client client = (Client) clientService.get(order.getClientId());
+        clientHandler.fill(client);
+
+        Driver driver = (Driver) driverService.get(order.getDriverId());
+        driverHandler.fill(driver);
+
         itemHandler.fill(order.getItems());
         reviewHandler.fill(order.getReview());
         messageHandler.fill(order.getMessages());
@@ -277,13 +287,15 @@ public class OrderController implements Initializable {
         }
 
         User user = Application.getCurrentUser();
+        Client client = (Client) clientService.get(selectedOrder.getClientId());
+        Driver driver = (Driver) driverService.get(selectedOrder.getDriverId());
 
         if (user.getRole() != UserRole.ADMIN) {
             selectedOrder.setStatus(statusCombo.getValue());
         } else {
             orderHandler.update(selectedOrder);
-            if (selectedOrder.getBuyer() != null) clientHandler.update(selectedOrder.getBuyer());
-            if (selectedOrder.getDeliveryPerson() != null) driverHandler.update(selectedOrder.getDeliveryPerson());
+            if (client != null) clientHandler.update(client);
+            if (driver != null) driverHandler.update(driver);
             if (selectedOrder.getReview() != null) reviewHandler.update(selectedOrder.getReview());
         }
 
@@ -331,8 +343,9 @@ public class OrderController implements Initializable {
 
         clientColumn.setCellValueFactory(data ->
                 new SimpleStringProperty(
-                        data.getValue().getBuyer() != null
-                                ? data.getValue().getBuyer().toString()
+
+                        data.getValue().getClientId() != null
+                                ? clientService.get(data.getValue().getClientId()).toString()
                                 : ""
                 )
         );
@@ -375,7 +388,7 @@ public class OrderController implements Initializable {
 
         orderTable.getItems().clear();
 
-        allOrders = orderService.findAll(new OrderSearchCriteria(selectedRestaurant));
+        allOrders = orderService.findAll(new OrderSearchCriteria(selectedRestaurant.getId()));
         orderTable.getItems().addAll(allOrders);
         orderTable.setColumnResizePolicy(TableView.UNCONSTRAINED_RESIZE_POLICY);
         orderTable.setFixedCellSize(32);
@@ -398,7 +411,7 @@ public class OrderController implements Initializable {
         List<Order> filtered = allOrders.stream()
                 .filter(o -> selectedStatus == null || o.getStatus().equals(selectedStatus))
                 .filter(o -> search.isBlank()
-                        || (o.getBuyer() != null && o.getBuyer().toString().toLowerCase().contains(search))
+                        || (clientService.get(o.getClientId()) != null && clientService.get(o.getClientId()).toString().toLowerCase().contains(search))
                         || (o.getId() != null && o.getId().toString().toLowerCase().contains(search))
                         || (o.getPaymentMethod() != null && o.getPaymentMethod().toLowerCase().contains(search)))
                 .toList();

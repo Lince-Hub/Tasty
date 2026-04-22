@@ -14,6 +14,7 @@ lt\linas_puplauskas\model\driver\VehicleType.class
 module-info.class
 lt\linas_puplauskas\model\driver\Driver.class
 lt\linas_puplauskas\database\DaoObject.class
+lt\linas_puplauskas\model\restaurant\RestaurantSearchCriteria.class
 lt\linas_puplauskas\service\ClientService.class
 lt\linas_puplauskas\database\DaoService.class
 lt\linas_puplauskas\model\user\UserRole.class

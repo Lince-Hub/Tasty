@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.Label?>
+
+<VBox spacing="15" alignment="TOP_CENTER"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="lt.linas_puplauskas.tasty.fxControllers.component.StatisticsController">
+
+    <Label text="Statistics" />
+
+    <VBox spacing="10" alignment="TOP_CENTER">
+        <Label text="Total Users:" />
+        <Label fx:id="totalUsersLabel" text="0" />
+
+        <Label text="Total Orders:" />
+        <Label fx:id="totalOrdersLabel" text="0" />
+
+        <Label text="Total Revenue:" />
+        <Label fx:id="totalRevenueLabel" text="0.0" />
+    </VBox>
+
+</VBox>
